@@ -29,12 +29,16 @@
 ---------------------------------------------------------------------------------*/
 #include <nds.h>
 
-unsigned int * SCFG_ROM=(unsigned int*)0x4004000;
-unsigned int * SCFG_CLK=(unsigned int*)0x4004004; 
-unsigned int * SCFG_EXT=(unsigned int*)0x4004008;
-unsigned int * SCFG_MC=(unsigned int*)0x4004010;
-unsigned int * SCFG_CPUID=(unsigned int*)0x4004D04;
-unsigned int * SCFG_CPUID2=(unsigned int*)0x4004D00;
+// MBK Registers
+unsigned int * SCFG_MBK1=(unsigned int*)0x04004040; // WRAM_A 0..3
+unsigned int * SCFG_MBK2=(unsigned int*)0x04004044; // WRAM_B 0..3
+unsigned int * SCFG_MBK3=(unsigned int*)0x04004048; // WRAM_B 4..7
+unsigned int * SCFG_MBK4=(unsigned int*)0x0400404C; // WRAM_C 0..3
+unsigned int * SCFG_MBK5=(unsigned int*)0x04004050; // WRAM_C 4..7
+unsigned int * SCFG_MBK6=(unsigned int*)0x04004054;
+unsigned int * SCFG_MBK7=(unsigned int*)0x04004058;
+unsigned int * SCFG_MBK8=(unsigned int*)0x0400405C;
+unsigned int * SCFG_MBK9=(unsigned int*)0x04004060;
 
 void VblankHandler(void) { }
 void VcountHandler() { inputGetAndSend(); }
@@ -48,7 +52,7 @@ static void myFIFOValue32Handler(u32 value,void* data) { fifoSendValue32(FIFO_US
 //---------------------------------------------------------------------------------
 int main() {
 //---------------------------------------------------------------------------------
-	
+
 	dmaFillWords(0, (void*)0x04000400, 0x100);
 
 	REG_SOUNDCNT |= SOUND_ENABLE;

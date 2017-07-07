@@ -7,7 +7,7 @@ endif
 
 include $(DEVKITARM)/ds_rules
 
-export TARGET		:=	RegisterReadout_SCFG
+export TARGET		:=	RegisterReadout_MBK
 export TOPDIR		:=	$(CURDIR)
 
 export VERSION_MAJOR	:= 1
@@ -29,7 +29,7 @@ all: $(TARGET).nds
 $(TARGET).nds	:	$(TARGET).arm7 $(TARGET).arm9
 	cp arm7/$(TARGET).elf $(TARGET).arm7.elf
 	cp arm9/$(TARGET).elf $(TARGET).arm9.elf
-	ndstool	-c $(TARGET).nds -7 $(TARGET).arm7.elf -9 $(TARGET).arm9.elf -b icon.bmp "View SCFG Registers;Unlocked Arm7 SCFG Recommended;Made by ahezard"
+	ndstool	-c $(TARGET).nds -7 $(TARGET).arm7.elf -9 $(TARGET).arm9.elf -b icon.bmp "View MBK Registers;Unlocked Arm7 SCFG Recommended;Made by ahezard"
 
 #---------------------------------------------------------------------------------
 $(TARGET).arm7	: arm7/$(TARGET).elf
