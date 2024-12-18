@@ -30,3 +30,7 @@
 *.elf
 *.cia
 *.nds
+
+# DLDI/Misc
+*.dldi
+

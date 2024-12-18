@@ -29,13 +29,6 @@
 ---------------------------------------------------------------------------------*/
 #include <nds.h>
 
-unsigned int * SCFG_ROM=(unsigned int*)0x4004000;
-unsigned int * SCFG_CLK=(unsigned int*)0x4004004; 
-unsigned int * SCFG_EXT=(unsigned int*)0x4004008;
-unsigned int * SCFG_MC=(unsigned int*)0x4004010;
-unsigned int * SCFG_CPUID=(unsigned int*)0x4004D04;
-unsigned int * SCFG_CPUID2=(unsigned int*)0x4004D00;
-
 void VblankHandler(void) { }
 void VcountHandler() { inputGetAndSend(); }
 
@@ -43,12 +36,11 @@ volatile bool exitflag = false;
 
 void powerButtonCB() { exitflag = true; }
 
-static void myFIFOValue32Handler(u32 value,void* data) { fifoSendValue32(FIFO_USER_02,*((unsigned int*)value)); }
+static void myFIFOValue32Handler(u32 value, void* data) { fifoSendValue32(FIFO_USER_02, *((unsigned int*)value)); }
 
 //---------------------------------------------------------------------------------
 int main() {
 //---------------------------------------------------------------------------------
-	
 	dmaFillWords(0, (void*)0x04000400, 0x100);
 
 	REG_SOUNDCNT |= SOUND_ENABLE;
@@ -62,12 +54,12 @@ int main() {
 
 	initClockIRQ();
 	fifoInit();
+	touchInit();
 
 
 	SetYtrigger(80);
 
 	installSoundFIFO();
-
 	installSystemFIFO();
 
 	irqSet(IRQ_VCOUNT, VcountHandler);
@@ -75,14 +67,12 @@ int main() {
 
 	irqEnable( IRQ_VBLANK | IRQ_VCOUNT | IRQ_NETWORK);
 
-	setPowerButtonCB(powerButtonCB);	
+	setPowerButtonCB(powerButtonCB);
 		
-	fifoSetValue32Handler(FIFO_USER_01,myFIFOValue32Handler,0);
+	fifoSetValue32Handler(FIFO_USER_01, myFIFOValue32Handler, 0);
 	
 	// Keep the ARM7 mostly idle
-	while (1) {
-		swiWaitForVBlank();
-	}
+	while (1)swiWaitForVBlank();
 	return 0;
 }
 
